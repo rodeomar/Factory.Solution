@@ -5,17 +5,17 @@ namespace Factory.Models
     public class Engineer
     {
         public string Name { get; set; }
-        public string LicenseDetails { get; set; }
+        public string LicenseID{ get; set; }
         public List<Machine> Machines { get; set; }
 
 
-        public Engineer(string Name, string licenseDetails)
+        public Engineer(string Name, string licenseID)
         {
 
             this.Name = Name;
 
             this.Machines = new();
-            this.LicenseDetails = licenseDetails;
+            this.LicenseID = licenseID;
         }
 
 

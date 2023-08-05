@@ -1,0 +1,12 @@
+﻿@model List<Factory.Models.Engineer>;
+
+@{
+    ViewData["Title"] = "Engineers List";
+}
+
+
+@foreach(Engineer en in Model)
+{
+    <h1>@en.Name</h1>
+}
+
