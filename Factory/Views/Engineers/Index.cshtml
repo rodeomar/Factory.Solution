@@ -5,8 +5,32 @@
 }
 
 
-@foreach(Engineer en in Model)
-{
-    <h1>@en.Name</h1>
-}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>LicenseID</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (Engineer engineer in Model)
+        {
+            <tr>
+                <td>@engineer.EngineerID</td>
+                <td>@engineer.Name</td>
+                <td>@engineer.LicenseID</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@engineer.EngineerID">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+
 
