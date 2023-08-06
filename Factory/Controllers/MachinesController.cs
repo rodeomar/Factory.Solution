@@ -28,6 +28,16 @@ namespace Factory.Controllers
             }
             return View(machine);
         }
+
+        public IActionResult Create(string Name, string Description)
+        {
+            int newId = Machines.Max(e => e.MachineId) + 1;
+            Machine newMachine = new Machine(newId, Name, Description);
+            Machines.Add(newMachine);
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
 
