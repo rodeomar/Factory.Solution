@@ -27,6 +27,17 @@ namespace Factory.Controllers
             return NotFound();
         }
 
+
+        public IActionResult Create(string Name, string Email, string Phone, string LicenseID)
+        {
+
+            int newId = Engineers.Max(e => e.EngineerID) + 1;
+            Engineer newEngineer = new Engineer(Name, Email, Phone, LicenseID, newId);
+            Engineers.Add(newEngineer);
+            return RedirectToAction("Index");
+
+        }
+
     }
 
 
