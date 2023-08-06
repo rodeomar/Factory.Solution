@@ -7,9 +7,11 @@ namespace Factory.Controllers
     {
 
         private static List<Engineer> Engineers = new() { new Engineer("Raed", "raed@example.com", "(555) 123-4567", "ASDU1312736", 1), new Engineer("Ammar", "ammar@example.com", "(555) 987-6543", "YAGD12837912", 2) };
+        
 
         public IActionResult Index()
         {
+            Engineers[0].AddMachine(MachinesController.Machines[0]);
 
             return View(Engineers);
 
@@ -38,7 +40,22 @@ namespace Factory.Controllers
 
         }
 
+
+
+        public IActionResult RemoveMachine(int engineerId, int machineId)
+        {
+            Engineer? engineer = Engineers.FirstOrDefault(e => e.EngineerID == engineerId);
+            Machine? machine = MachinesController.Machines.FirstOrDefault(m => m.MachineId == machineId);
+
+            if (engineer == null || machine == null)
+            {
+                return NotFound();
+            }
+
+            engineer.RemoveMachine(machine);
+            return RedirectToAction("Details", new { id = engineerId });
+        }
+
+
     }
-
-
 }

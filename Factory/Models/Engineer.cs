@@ -19,7 +19,7 @@
             this.Machines = new();
             this.LicenseID = licenseID;
             this.EngineerID = engineerID;
-            this.Machines = new() { new Machine(1, "Microwave", "It is not working I dontknow why") };
+            this.Machines = new();
         }
 
         public void AddMachine(Machine machine)
