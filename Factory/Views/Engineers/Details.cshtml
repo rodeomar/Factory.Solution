@@ -31,6 +31,9 @@
                                     <tr>
                                         <td>@machine.Name</td>
                                         <td>@machine.Description</td>
+                                        <td>
+                                            <a asp-action="RemoveMachine" asp-route-engineerId="@Model.EngineerID" asp-route-machineId="@machine.MachineId" class="btn btn-danger">Remove Machine</a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -42,8 +45,8 @@
                     }
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-action="Edit" asp-route-id="@Model.EngineerID" class="btn btn-primary mr-2">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@Model.EngineerID" class="btn btn-danger">Delete</a>
+                    <a asp-action="AddMachine" asp-route-engineerId="@Model.EngineerID" class="btn btn-primary mr-2">Add Machine</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
                 </div>
             </div>
         </div>
