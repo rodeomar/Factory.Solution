@@ -1,0 +1,54 @@
+﻿@model Factory.Models.Machine
+
+@{
+    ViewData["Title"] = "Machine Details";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">@Model.Name</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>ID:</strong> @Model.MachineId</p>
+                    <p><strong>Description:</strong> @Model.Description</p>
+
+                    @if (Model.Engineers.Count > 0)
+                    {
+                        <p><strong>Engineers:</strong></p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>License ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var engineer in Model.Engineers)
+                                {
+                                    <tr>
+                                        <td>@engineer.Name</td>
+                                        <td>@engineer.Email</td>
+                                        <td>@engineer.Phone</td>
+                                        <td>@engineer.LicenseID</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>No engineers licensed for this machine.</p>
+                    }
+                </div>
+                <div class="card-footer text-center">
+                    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,5 +17,17 @@ namespace Factory.Controllers
         {
             return View(Machines);
         }
+
+        public IActionResult Details(int id)
+        {
+            Machine? machine = Machines.FirstOrDefault(m => m.MachineId == id);
+
+            if (machine == null)
+            {
+                return NotFound();
+            }
+            return View(machine);
+        }
     }
 }
+

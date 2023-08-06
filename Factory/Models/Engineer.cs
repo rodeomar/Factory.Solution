@@ -1,6 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
-namespace Factory.Models
+﻿namespace Factory.Models
 {
     public class Engineer
     {
