@@ -12,6 +12,22 @@ namespace Factory.Controllers
         {
 
             return View(Engineers);
+
         }
+
+        public IActionResult Details(int id)
+        {
+            Engineer? engineer = Engineers.FirstOrDefault(e => e.EngineerID == id);
+
+            if (engineer != null)
+            {
+                return View(engineer);
+            }
+
+            return NotFound();
+        }
+
     }
+
+
 }
