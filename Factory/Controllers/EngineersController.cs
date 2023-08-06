@@ -54,6 +54,18 @@ namespace Factory.Controllers
             return RedirectToAction("Details", new { id = engineerId });
         }
 
+        public IActionResult AddMachine(int engineerId, int machineId)
+        {
+            Engineer? engineer = Engineers.FirstOrDefault(e => e.EngineerID == engineerId);
+            Machine? machine = MachinesController.Machines.FirstOrDefault(m => m.MachineId == machineId);
+
+            if (engineer != null && machine != null)
+            {
+                machine.AddEngineer(engineer);
+            }
+
+            return RedirectToAction("Details", new { id = engineerId });
+        }
 
     }
 }

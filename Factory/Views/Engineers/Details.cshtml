@@ -1,4 +1,5 @@
-﻿@model Factory.Models.Engineer
+﻿@using Factory.Controllers;
+@model Factory.Models.Engineer
 
 @{
     ViewData["Title"] = "Engineer Details";
@@ -45,9 +46,36 @@
                     }
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-action="AddMachine" asp-route-engineerId="@Model.EngineerID" class="btn btn-primary mr-2">Add Machine</a>
+                    <a href="#" class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#addMachineModal">Add Machine</a>
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addMachineModal" tabindex="-1" aria-labelledby="addMachineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMachineModalLabel">Add Machine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddMachine" method="post">
+                    <div class="form-group">
+                        <label for="MachineId">Select a Machine:</label>
+                        <select class="form-control" id="MachineId" name="MachineId" required>
+                            <option value="">-- Select a machine --</option>
+                            @foreach (var machine in MachinesController.Machines)
+                            {
+                                <option value="@machine.MachineId">@machine.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" id="EngineerId" name="EngineerId" value="@Model.EngineerID" />
+                    <button type="submit" class="btn btn-primary">Add Machine</button>
+                </form>
             </div>
         </div>
     </div>
