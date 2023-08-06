@@ -11,7 +11,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>LicenseID</th>
+            <th>Contacts</th>
             <th></th>
         </tr>
     </thead>
@@ -22,7 +22,14 @@
             <tr>
                 <td>@engineer.EngineerID</td>
                 <td>@engineer.Name</td>
-                <td>@engineer.LicenseID</td>
+                <td>
+                    <i class="fa-regular fa-envelope"></i>
+                    <a href="mailto: @engineer.Email" target="_blank">
+                        @engineer.Email
+                     </a> 
+                     <br />
+                    <i class="fa-solid fa-phone"></i>
+                     @engineer.Phone </td>
                 <td>
                     <a class="btn btn-primary" asp-action="Details" asp-route-id="@engineer.EngineerID">Details</a>
                 </td>
