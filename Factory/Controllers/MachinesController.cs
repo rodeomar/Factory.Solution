@@ -38,6 +38,19 @@ namespace Factory.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult RemoveEngineer(int engineerId, int machineId)
+        {
+            Machine? machine = Machines.FirstOrDefault(m => m.MachineId == machineId);
+            Engineer? engineer = EngineersController.Engineers.FirstOrDefault(e => e.EngineerID == engineerId);
+
+            if (machine != null && engineer != null)
+            {
+                machine.RemoveEngineer(engineer);
+            }
+
+            return RedirectToAction("Details", new { id = machineId });
+        }
+
     }
 }
 

@@ -33,7 +33,11 @@
                                         <td>@machine.Name</td>
                                         <td>@machine.Description</td>
                                         <td>
-                                            <a asp-action="RemoveMachine" asp-route-engineerId="@Model.EngineerID" asp-route-machineId="@machine.MachineId" class="btn btn-danger">Remove Machine</a>
+                                           <form asp-action="RemoveMachine" method="post">
+                                                <input type="hidden" name="engineerId" value="@Model.EngineerID" />
+                                                <input type="hidden" name="machineId" value="@machine.MachineId" />
+                                                <button type="submit" class="btn btn-danger">Remove Machine</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 }

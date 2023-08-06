@@ -25,6 +25,7 @@
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>License ID</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,6 +36,13 @@
                                         <td>@engineer.Email</td>
                                         <td>@engineer.Phone</td>
                                         <td>@engineer.LicenseID</td>
+                                        <td>
+                                            <form asp-action="RemoveEngineer" method="post">
+                                                <input type="hidden" name="engineerId" value="@engineer.EngineerID" />
+                                                <input type="hidden" name="machineId" value="@Model.MachineId" />
+                                                <button type="submit" class="btn btn-danger">Remove Engineer</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
