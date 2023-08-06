@@ -1,0 +1,24 @@
+﻿@model List<Factory.Models.Machine>
+
+@{
+    ViewData["Title"] = "Machines List";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var machine in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@machine.Name</h5>
+                        <p class="card-text">@machine.Description</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="@Url.Action("Details", new { id = machine.MachineId })" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
