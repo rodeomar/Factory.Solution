@@ -4,8 +4,8 @@
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Phone { get; set; }    
-        public string LicenseID{ get; set; }
+        public string Phone { get; set; }
+        public string LicenseID { get; set; }
         public int EngineerID { get; set; }
         public List<Machine> Machines { get; set; }
 
@@ -22,6 +22,21 @@
             this.Machines = new() { new Machine(1, "Microwave", "It is not working I dontknow why") };
         }
 
-
+        public void AddMachine(Machine machine)
+        {
+            if (!Machines.Contains(machine))
+            {
+                Machines.Add(machine);
+                machine.Engineers.Add(this);
+            }
+        }
+        public void RemoveMachine(Machine machine)
+        {
+            if (Machines.Contains(machine))
+            {
+                Machines.Remove(machine);
+                machine.Engineers.Remove(this);
+            }
+        }
     }
 }
