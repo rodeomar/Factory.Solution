@@ -11,8 +11,6 @@ namespace Factory.Controllers
 
         public IActionResult Index()
         {
-            Engineers[0].AddMachine(MachinesController.Machines[0]);
-
             return View(Engineers);
 
         }
