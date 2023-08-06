@@ -1,4 +1,5 @@
-﻿@model Factory.Models.Machine
+﻿@using Factory.Controllers;
+@model Factory.Models.Machine
 
 @{
     ViewData["Title"] = "Machine Details";
@@ -55,7 +56,35 @@
                 </div>
                 <div class="card-footer text-center">
                     <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                    <a href="#" class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#addEngineerModal">Add Engineer</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addEngineerModal" tabindex="-1" aria-labelledby="addEngineerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEngineerModalLabel">Add Engineer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddEngineer" method="post">
+                    <div class="form-group">
+                        <label for="EngineerId">Select a Engineer:</label>
+                        <select class="form-control" id="EngineerId" name="EngineerId" required>
+                            <option value="">-- Select a Engineer --</option>
+                            @foreach (var engineer in EngineersController.Engineers)
+                            {
+                                <option value="@engineer.EngineerID">@engineer.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" id="MachineId" name="MachineId" value="@Model.MachineId" />
+                    <button type="submit" class="btn btn-primary">Add Machine</button>
+                </form>
             </div>
         </div>
     </div>
