@@ -16,5 +16,23 @@
             this.Engineers = new();
         }
 
+        public void AddEngineer(Engineer engineer)
+        {
+            if (!Engineers.Contains(engineer))
+            {
+                Engineers.Add(engineer);
+                engineer.Machines.Add(this);
+            }
+        }
+
+        public void RemoveEngineer(Engineer engineer)
+        {
+            if (Engineers.Contains(engineer))
+            {
+                Engineers.Remove(engineer);
+                engineer.Machines.Remove(this);
+            }
+        }
+
     }
 }
