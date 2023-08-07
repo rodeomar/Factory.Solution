@@ -24,3 +24,10 @@ Dr. Sillystringz's Factory is a web application built to manage machine repairs 
 
 1. Start the application: `dotnet run` or `dotnet watch run` to watch this in watcher mode
 2. Access the application in your web browser at `https://localhost:5001`
+
+###Known Bugs 
+None
+
+License Please let me know if you have any questions or concerns raed@alkhanbashi.gmail.com
+
+Copyright (c) 2023 Raed Alkhanbashi.
