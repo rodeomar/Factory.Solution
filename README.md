@@ -94,6 +94,8 @@ CREATE TABLE EngineerMachine (
     FOREIGN KEY (MachineID) REFERENCES Machines(MachineID)
 );
 ```
+
+7. **Next update the [appsettings.json](https://github.com/rodeomar/Factory.Solution/blob/main/README.md#appsettingsjson) with your `db_name`, `username`, and `password`**
 🎉🎉Done
 
 
