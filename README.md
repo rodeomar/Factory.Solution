@@ -25,7 +25,8 @@ git clone https://github.com/rodeomar/Factory.Solution
 2. [Import the database](https://github.com/rodeomar/HairSalon.Solution/blob/main/README.md#steps-to-importing-database) using the provided SQL scripts in the `Factory.Solution` Folder.
 
 3. Update the connection string in the `appsettings.json` file with your MySQL database credentials.
-```
+#### appsettings.json
+```json
 "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Port=3306;database=db_name;uid=username;pwd=password;"
   }
@@ -52,7 +53,47 @@ git clone https://github.com/rodeomar/Factory.Solution
 <img src="https://github.com/rodeomar/HairSalon.Solution/assets/120299308/3f316fbd-e961-440b-93c8-31526ccd0e73" alt="image" width=225>
 <img src="https://github.com/rodeomar/HairSalon.Solution/assets/120299308/cc7b5621-d0ca-42cc-af94-0a061305a700" alt="image" width="780">
 
+--------
 
+## Or Query to Importing Database
+
+1. Go to MySQL workbench and open a connection.
+2. Create the database.
+```mysql
+CREATE DATABASE db_name;
+```
+3. Use the database;
+```sql
+USE db_name;
+```
+4. Create the `Engineers` Table.
+```mysql
+CREATE TABLE Engineers (
+    EngineerID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255),
+    Email VARCHAR(255),
+    Phone VARCHAR(20),
+    LicenseID VARCHAR(50)
+);
+```
+5. Create the `Machines` Table.
+```mysql
+CREATE TABLE Machines (
+    MachineID INT AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(255),
+    Description TEXT
+);
+```
+6. Create the `EngineerMachine` Table.
+```mysql
+CREATE TABLE EngineerMachine (
+    EngineerID INT,
+    MachineID INT,
+    PRIMARY KEY (EngineerID, MachineID),
+    FOREIGN KEY (EngineerID) REFERENCES Engineers(EngineerID),
+    FOREIGN KEY (MachineID) REFERENCES Machines(MachineID)
+);
+```
 🎉🎉Done
 
 
