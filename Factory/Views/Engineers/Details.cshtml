@@ -16,7 +16,7 @@
                     <p><strong>Email:</strong> @Model.Email</p>
                     <p><strong>Phone:</strong> @Model.Phone</p>
                     <p><strong>License ID:</strong> @Model.LicenseID</p>
-                    @if (Model.Machines.Count > 0)
+                    @if (Model.GetMachines().Count > 0)
                     {
                         <p><strong>Machines:</strong></p>
                         <table class="table table-bordered">
@@ -24,16 +24,17 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Description</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var machine in Model.Machines)
+                                @foreach (var machine in Model.GetMachines())
                                 {
                                     <tr>
                                         <td>@machine.Name</td>
                                         <td>@machine.Description</td>
                                         <td>
-                                           <form asp-action="RemoveMachine" method="post">
+                                            <form asp-action="RemoveMachine" method="post">
                                                 <input type="hidden" name="engineerId" value="@Model.EngineerID" />
                                                 <input type="hidden" name="machineId" value="@machine.MachineId" />
                                                 <button type="submit" class="btn btn-danger">Remove Machine</button>
@@ -52,6 +53,8 @@
                 <div class="card-footer text-center">
                     <a href="#" class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#addMachineModal">Add Machine</a>
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <button type="button" class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#deleteEngineerModal">Delete Engineer</button>
+                    <button type="button" class="btn btn-info ml-2" data-bs-toggle="modal" data-bs-target="#editEngineerModal">Edit Engineer</button>
                 </div>
             </div>
         </div>
@@ -71,14 +74,69 @@
                         <label for="MachineId">Select a Machine:</label>
                         <select class="form-control" id="MachineId" name="MachineId" required>
                             <option value="">-- Select a machine --</option>
-                            @foreach (var machine in MachinesController.Machines)
+                            @foreach (var machine in MachinesController.GetAllMachines())
                             {
                                 <option value="@machine.MachineId">@machine.Name</option>
                             }
                         </select>
                     </div>
                     <input type="hidden" id="EngineerId" name="EngineerId" value="@Model.EngineerID" />
-                    <button type="submit" class="btn btn-primary">Add Machine</button>
+                    <button type="submit" class="btn btn-primary my-2">Add Machine</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteEngineerModal" tabindex="-1" aria-labelledby="deleteEngineerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteEngineerModalLabel">Delete Engineer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger"><strong>Warning:</strong> Deleting this engineer will also remove all data associated with them, including the machines they are licensed for.</p>
+                <p>Are you sure you want to delete this engineer?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" name="EngineerId" value="@Model.EngineerID" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editEngineerModal" tabindex="-1" aria-labelledby="editEngineerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEngineerModalLabel">Edit Engineer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit" method="post">
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Email:</label>
+                        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone">Phone:</label>
+                        <input type="text" class="form-control" id="Phone" name="Phone" value="@Model.Phone" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="LicenseID">License ID:</label>
+                        <input type="text" class="form-control" id="LicenseID" name="LicenseID" value="@Model.LicenseID" required />
+                    </div>
+                    <input type="hidden" id="EngineerId" name="EngineerId" value="@Model.EngineerID" />
+                    <button type="submit" class="btn btn-primary my-2">Save Changes</button>
                 </form>
             </div>
         </div>

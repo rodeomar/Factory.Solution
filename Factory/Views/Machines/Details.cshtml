@@ -16,7 +16,7 @@
                     <p><strong>ID:</strong> @Model.MachineId</p>
                     <p><strong>Description:</strong> @Model.Description</p>
 
-                    @if (Model.Engineers.Count > 0)
+                    @if (Model.GetEngineers().Count > 0)
                     {
                         <p><strong>Engineers:</strong></p>
                         <table class="table table-bordered">
@@ -30,7 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var engineer in Model.Engineers)
+                                @foreach (var engineer in Model.GetEngineers())
                                 {
                                     <tr>
                                         <td>@engineer.Name</td>
@@ -55,9 +55,12 @@
                     }
                 </div>
                 <div class="card-footer text-center">
-                    <a asp-action="Index" class="btn btn-primary">Back to List</a>
                     <a href="#" class="btn btn-primary mr-2" data-bs-toggle="modal" data-bs-target="#addEngineerModal">Add Engineer</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <button type="button" class="btn btn-danger ml-2" data-bs-toggle="modal" data-bs-target="#deleteMachineModal">Delete Machine</button>
+                    <a href="#" class="btn btn-info ml-2" data-bs-toggle="modal" data-bs-target="#editMachineModal">Edit Machine</a>
                 </div>
+
             </div>
         </div>
     </div>
@@ -73,17 +76,63 @@
             <div class="modal-body">
                 <form asp-action="AddEngineer" method="post">
                     <div class="form-group">
-                        <label for="EngineerId">Select a Engineer:</label>
+                        <label for="EngineerId">Select an Engineer:</label>
                         <select class="form-control" id="EngineerId" name="EngineerId" required>
-                            <option value="">-- Select a Engineer --</option>
-                            @foreach (var engineer in EngineersController.Engineers)
+                            <option value="">-- Select an Engineer --</option>
+                            @foreach (var engineer in EngineersController.GetAllEngineers())
                             {
                                 <option value="@engineer.EngineerID">@engineer.Name</option>
                             }
                         </select>
                     </div>
                     <input type="hidden" id="MachineId" name="MachineId" value="@Model.MachineId" />
-                    <button type="submit" class="btn btn-primary">Add Machine</button>
+                    <button type="submit" class="btn btn-primary my-2">Add Engineer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteMachineModal" tabindex="-1" aria-labelledby="deleteMachineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMachineModalLabel">Delete Machine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger"><strong>Warning:</strong> Deleting this machine will also remove all data associated with it, including the engineers licensed for it.</p>
+                <p>Are you sure you want to delete this machine?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" name="MachineId" value="@Model.MachineId" />
+                <a asp-action="Delete" asp-route-MachineId="@Model.MachineId" class="btn btn-danger ">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editMachineModal" tabindex="-1" aria-labelledby="editMachineModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editMachineModalLabel">Edit Machine</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit" method="post">
+                    <div class="form-group">
+                        <label for="Name">Name:</label>
+                        <input type="text" class="form-control" id="Name" name="Name" value="@Model.Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Description">Description:</label>
+                        <textarea class="form-control" id="Description" name="Description" required>@Model.Description</textarea>
+                    </div>
+                    <input type="hidden" id="MachineId" name="MachineId" value="@Model.MachineId" />
+                    <button type="submit" class="btn btn-primary my-2">Save Changes</button>
                 </form>
             </div>
         </div>

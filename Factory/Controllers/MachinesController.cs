@@ -1,51 +1,137 @@
 ﻿using Factory.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using MySqlConnector;
 
 namespace Factory.Controllers
 {
     public class MachinesController : Controller
     {
-        public static List<Machine> Machines = new()
+        private static MySqlConnection GetConnection()
         {
-            new Machine(1, "Dreamweaver", "A machine that creates dreams."),
-            new Machine(2, "Bubblewrappinator", "A machine that wraps everything in bubbles."),
-            new Machine(3, "Laughbox", "A machine that generates endless laughter.")
-        };
+            return new MySqlConnection(DBConfiguration.ConnectionString);
+        }
+
+        public static List<Machine> GetAllMachines()
+        {
+            List<Machine> Machines = new List<Machine>();
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string sql = "SELECT * FROM Machines";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Machine machine = new Machine(
+                            reader.GetInt32("MachineID"),
+                            reader.GetString("Name"),
+                            reader.GetString("Description")
+                        );
+
+                        Machines.Add(machine);
+                    }
+                }
+            }
+
+            return Machines;
+        }
 
         public IActionResult Index()
         {
-            return View(Machines);
+            return View(GetAllMachines());
         }
+
+        private Machine GetMachineByID(int id)
+        {
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string sql = "SELECT * FROM Machines WHERE MachineID = @ID";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@ID", id);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new Machine(
+                            reader.GetInt32("MachineID"),
+                            reader.GetString("Name"),
+                            reader.GetString("Description")
+                        );
+                    }
+                }
+            }
+
+            return null; // Return null only when no machine is found
+        }
+
 
         public IActionResult Details(int id)
         {
-            Machine? machine = Machines.FirstOrDefault(m => m.MachineId == id);
+            Machine? machine = GetMachineByID(id);
 
-            if (machine == null)
+            if (machine != null)
             {
-                return NotFound();
+                return View(machine);
             }
-            return View(machine);
+
+            return NotFound();
         }
 
         public IActionResult Create(string Name, string Description)
         {
-            int newId = Machines.Max(e => e.MachineId) + 1;
-            Machine newMachine = new Machine(newId, Name, Description);
-            Machines.Add(newMachine);
+            using (MySqlConnection conn = GetConnection())
+            {
+                conn.Open();
+
+                string insertSql = "INSERT INTO Machines (Name, Description) VALUES (@Name, @Description)";
+                MySqlCommand cmd = new MySqlCommand(insertSql, conn);
+                cmd.Parameters.AddWithValue("@Name", Name);
+                cmd.Parameters.AddWithValue("@Description", Description);
+                cmd.ExecuteNonQuery();
+
+                return RedirectToAction("Index");
+            }
+        }
+
+        public IActionResult Edit(int MachineID, string Name, string Description)
+        {
+            Machine? machine= GetMachineByID(MachineID);
+
+            if (machine != null)
+            {
+                machine.Update(Name, Description);
+            }
+
+            return RedirectToAction("Details", new { id = MachineID });
+        }
+
+        public IActionResult Delete(int MachineId)
+        {
+            Machine? machine = GetMachineByID(MachineId);
+
+            if (machine != null)
+            {
+                machine.Delete();
+            }
 
             return RedirectToAction("Index");
         }
 
+
+
         public IActionResult RemoveEngineer(int engineerId, int machineId)
         {
-            Machine? machine = Machines.FirstOrDefault(m => m.MachineId == machineId);
-            Engineer? engineer = EngineersController.Engineers.FirstOrDefault(e => e.EngineerID == engineerId);
+            Machine? machine = GetMachineByID(machineId);
 
-            if (machine != null && engineer != null)
+            if (machine != null)
             {
-                machine.RemoveEngineer(engineer);
+                machine.RemoveEngineer(engineerId);
             }
 
             return RedirectToAction("Details", new { id = machineId });
@@ -54,15 +140,14 @@ namespace Factory.Controllers
 
         public IActionResult AddEngineer(int machineId, int engineerId)
         {
-            Machine? machine = Machines.FirstOrDefault(e => e.MachineId == machineId);
-            Engineer? engineer = EngineersController.Engineers.FirstOrDefault(m => m.EngineerID == engineerId);
+            Machine? machine = GetMachineByID(machineId);
 
-            if (engineer != null && machine != null)
+            if (machine != null)
             {
-                machine.AddEngineer(engineer);
+                machine.AddEngineer(engineerId);
             }
 
-            return RedirectToAction("Details", new { id = engineerId });
+            return RedirectToAction("Details", new { id = machineId });
         }
     }
 }
