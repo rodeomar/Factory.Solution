@@ -8,24 +8,46 @@
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addMachineModal">Add Machine</button>
 </div>
 
+
+<style>
+    .machine-card {
+        transition: transform 0.2s;
+    }
+
+        .machine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+</style>
+
 <div class="container mt-3">
-    <div class="row">
-        @foreach (var machine in Model)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@machine.Name</h5>
-                        <p class="card-text">@machine.Description</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="@Url.Action("Details", new { id = machine.MachineId })" class="btn btn-success">View Details</a>
+    @if (Model.Count > 0)
+    {
+        <div class="row">
+            @foreach (var machine in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm machine-card">
+                        <div class="card-body">
+                            <h5 class="card-title">@machine.Name</h5>
+                            <p class="card-text">@machine.Description</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="@Url.Action("Details", new { id = machine.MachineId })" class="btn btn-success">View Details</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>No Machines Found</p>
+    }
 </div>
+
+
 
 
 <div class="modal fade" id="addMachineModal" tabindex="-1" aria-labelledby="addMachineModalLabel" aria-hidden="true">
