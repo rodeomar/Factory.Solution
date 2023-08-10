@@ -96,13 +96,11 @@ namespace Factory.Models
             {
                 conn.Open();
 
-                // Remove the engineer from EngineerMachine table
                 string deleteEngineerMachineSql = "DELETE FROM EngineerMachine WHERE EngineerID = @EngineerID";
                 MySqlCommand deleteEngineerMachineCmd = new MySqlCommand(deleteEngineerMachineSql, conn);
                 deleteEngineerMachineCmd.Parameters.AddWithValue("@EngineerID", EngineerID);
                 deleteEngineerMachineCmd.ExecuteNonQuery();
 
-                // Remove the engineer from Engineers table
                 string deleteEngineerSql = "DELETE FROM Engineers WHERE EngineerID = @EngineerID";
                 MySqlCommand deleteEngineerCmd = new MySqlCommand(deleteEngineerSql, conn);
                 deleteEngineerCmd.Parameters.AddWithValue("@EngineerID", EngineerID);

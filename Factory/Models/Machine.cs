@@ -87,13 +87,11 @@ namespace Factory.Models
             {
                 conn.Open();
 
-                // Remove the machine from EngineerMachine table
                 string deleteEngineerMachineSql = "DELETE FROM EngineerMachine WHERE MachineID = @MachineID";
                 MySqlCommand deleteEngineerMachineCmd = new MySqlCommand(deleteEngineerMachineSql, conn);
                 deleteEngineerMachineCmd.Parameters.AddWithValue("@MachineID", MachineId);
                 deleteEngineerMachineCmd.ExecuteNonQuery();
 
-                // Remove the machine from Machines table
                 string deleteMachineSql = "DELETE FROM Machines WHERE MachineID = @MachineID";
                 MySqlCommand deleteMachineCmd = new MySqlCommand(deleteMachineSql, conn);
                 deleteMachineCmd.Parameters.AddWithValue("@MachineID", MachineId);
