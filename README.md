@@ -25,7 +25,7 @@ git clone https://github.com/rodeomar/Factory.Solution
 2. [Import the database](https://github.com/rodeomar/HairSalon.Solution/blob/main/README.md#steps-to-importing-database) using the provided SQL scripts in the `Factory.Solution` Folder.
 
 3. Update the connection string in the `appsettings.json` file with your MySQL database credentials.
-#### appsettings.json
+#### appsettings.json (Create appsettings.json file in Factory directory)
 ```json
 "ConnectionStrings": {
     "DefaultConnection": "Server=localhost;Port=3306;database=db_name;uid=username;pwd=password;"
